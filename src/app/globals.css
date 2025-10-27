@@ -159,3 +159,85 @@ li:hover {
   color: var(--font-color-light);
   line-height: 1.6;
 }
+
+form-container {
+  display: flex;
+  align-items: center;
+  width: 80vw;
+  min-height: 60vh;
+  margin: auto;
+}
+.patient-login .left {
+  position: relative;
+}
+
+.left,
+.right {
+  width: 50%;
+  min-height: 60vh;
+  padding: 40px;
+}
+.left {
+  position: relative;
+}
+.right {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.right h2 {
+  margin-bottom: 30px;
+  font-size: 35px;
+}
+
+.right input {
+  width: 100%;
+  outline: none;
+  padding: 10px 20px;
+  border: none;
+  border-bottom: 1px solid var(--font-color-light);
+  margin: 10px;
+  font-size: 18px;
+  transition: border-bottom 0.3s linear;
+}
+
+.right input::placeholder {
+  color: var(--font-color-light);
+}
+
+.right input:focus {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.patient-login .right input:focus {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.right a,
+.right button {
+  width: 100%;
+  text-align: center;
+  padding: 15px 20px;
+  color: white;
+  margin: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-size: 20px;
+  border: none;
+}
+
+.patient-login .right a {
+  background-color: var(--primary-color);
+}
+
+.container {
+  position: absolute;
+  left: 400px;
+}
+
+.cards-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}

@@ -14,7 +14,7 @@ const Index = () => {
           backgroundColor="rgb(235, 240, 250)"
         />
       </Link>
-      <Link href={"/login"}>
+      <Link href={"/hospital/login"}>
         <Card
           iconClass="fa-hospital"
           title="Hospital Portal"
