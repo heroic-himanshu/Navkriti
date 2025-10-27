@@ -262,13 +262,13 @@ const DashBoardPatient = () => {
 
       if (location) payload.location = location;
 
-      const data = await postJSON("/api/alerts/sos/create-alert", payload, {
+      const res = await postJSON("/api/alerts/sos/create-alert", payload, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${patientToken}`,
         },
       });
-
+      let data = await res.json();
       if (data.success) {
         return data.alert._id;
       } else {
