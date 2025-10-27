@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Image from "next/image";
-// import { fetchWithProgress, postJSON } from "@/lib/fetchWithProgess";
+import { fetchWithProgress, postJSON } from "@/lib/fetchWithProgess";
 
 const LoginFormPatient = () => {
     const router = useRouter();

@@ -280,7 +280,7 @@ const DashBoardPatient = () => {
         payload.location = location;
       }
 
-      const response = await postJSON("/api/alerts/sos/create-alert", payload, {
+      const response = await postJSON("/api/alerts/sos/create-alert",payload, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
