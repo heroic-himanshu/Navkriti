@@ -21,6 +21,11 @@
 a {
   text-decoration: none;
   color: black;
+  transition: scale 0.5s ease;
+}
+
+a:hover{
+  transform: scale(1.01);
 }
 
 header {
