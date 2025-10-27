@@ -2607,15 +2607,21 @@ Tailwind utilities used in PatientRegister.jsx
 
 @media screen and (max-width: 900px) {
   .patient-register-wrapper {
-    transform: translate(15%, 0%) !important;
+    transform: translate(10%, 15%) !important;
   }
 
   .form-container .right {
     z-index: -1;
   }
   .form-container .right {
-    transform: translate(-10%, -40%);
+    transform: translate(-5%, -20%);
     z-index: 1000;
+  }
+}
+
+@media screen and (max-width : 780px) {
+  .patient-register-wrapper {
+    transform: translate(15%, 10%) !important;
   }
 }
 
