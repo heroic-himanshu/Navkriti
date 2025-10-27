@@ -35,7 +35,7 @@ header {
   padding: 30px 30px;
   width: 100%;
   background: var(--light-bg-color);
-  height: 120px;
+  height: 100px;
   margin-bottom: 40px;
   position: fixed;
   top: 0;
@@ -2380,9 +2380,6 @@ Tailwind utilities used in PatientRegister.jsx
 
 /* /patient/login screen */
 @media screen and (max-width: 890px) {
-  header {
-    height: 100px;
-  }
   .logo div i {
     font-size: 20px;
   }
@@ -2492,6 +2489,7 @@ Tailwind utilities used in PatientRegister.jsx
   .sidebar {
     width: 0px;
     transition: width 0.3s ease-in-out;
+    background: white;
   }
 
   .sidebar a {

@@ -7,6 +7,7 @@ const PatientSideBar = ({ active }) => {
         const sideBar = document.getElementById("sidebar");
         if (sideBar.style.width == "100vw") {
             sideBar.style.width = "0px";
+            sideBar.style.background = "white";
             Array.from(sideBar.childNodes).forEach((child) => {
                 child.style.display = "none";
             });
@@ -14,6 +15,7 @@ const PatientSideBar = ({ active }) => {
         }
         else {
             sideBar.style.width = "100vw";
+            sideBar.style.background = "#f5f5f5";
             Array.from(sideBar.childNodes).forEach((child) => {
                 child.style.display = "block";
             });
@@ -34,6 +36,10 @@ const PatientSideBar = ({ active }) => {
             href: "/patient/checkups",
             iconClass: "fa-calendar-minus",
             label: "Checkups",
+        },{
+            href: "/patient/sos",
+            iconClass: "fa-solid fa-triangle-exclamation",
+            label: "SOS",
         }
     ]
     return (
