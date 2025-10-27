@@ -2868,13 +2868,12 @@ medicineCard h3 {
 .custom-notification {
   position: fixed;
   bottom: 40px;
-  right: -1520px;
   transition: right 0.3s ease-in-out;
-}
-
-.active-custom-notification {
+  z-index: 100000;
   right: 20px;
 }
+
+
 
 .custom-notification button {
   margin-left: 10px;

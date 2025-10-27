@@ -112,7 +112,7 @@ export default function SOSFirstAidPage() {
             <h2 style={{ color: '#c33', marginBottom: '10px' }}>Error</h2>
             <p>{error}</p>
             <button
-              onClick={() => router.push('/patient/dashboard')}
+              onClick={() => router.push('/patient/home')}
               style={{
                 marginTop: '20px',
                 padding: '12px 24px',
@@ -125,7 +125,7 @@ export default function SOSFirstAidPage() {
                 fontWeight: 'bold'
               }}
             >
-              Back to Dashboard
+              Back to Home
             </button>
           </div>
         </div>

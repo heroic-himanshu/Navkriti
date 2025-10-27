@@ -85,6 +85,18 @@ export default function PatientRegister() {
 
   const handleSubmit = async () => {
     setMessage({ type: "", text: "" });
+    const is_dark_mode = localStorage.getItem("theme") === "dark";
+    if(is_dark_mode){
+      const patientAddForms = document.getElementsByClassName("patient-add-form");
+      for (let form of patientAddForms) {
+        form.classList.add("bg-1e293b");
+      }
+    }else{
+      const patientAddForms = document.getElementsByClassName("patient-add-form");
+      for (let form of patientAddForms) {
+        form.classList.add("bg-white");
+      }
+    }
 
     if (
       !formData.name ||
@@ -290,7 +302,7 @@ export default function PatientRegister() {
 
         {/* Basic Info Tab */}
         {activeTab === "basic" && (
-          <div className="bg-1e293b rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="rounded-xl shadow-sm border border-gray-200 p-6 patient-add-form">
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -397,7 +409,7 @@ export default function PatientRegister() {
 
         {/* Medical Info Tab */}
         {activeTab === "medical" && (
-          <div className="bg-1e293b rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="patient-add-form rounded-xl shadow-sm border border-gray-200 p-6">
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -511,7 +523,7 @@ export default function PatientRegister() {
             {medicines.map((medicine, index) => (
               <div
                 key={index}
-                className="bg-1e293b rounded-xl shadow-sm border border-gray-200 p-6"
+                className="patient-add-form rounded-xl shadow-sm border border-gray-200 p-6"
               >
                 <div className="flex justify-between items-center mb-4">
                   <h4 className="font-medium text-gray-900 flex items-center gap-2">
