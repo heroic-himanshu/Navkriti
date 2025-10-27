@@ -16,15 +16,13 @@
   --light-bg-color: #f5f5f5;
 }
 
-a {
+a,button {
   text-decoration: none;
   color: black;
-  transition: scale 0.5s ease;
+  transition: all 0.5s ease;
 }
 
-a:hover {
-  transform: scale(1.01);
-}
+
 
 header {
   display: flex;
@@ -70,7 +68,7 @@ main {
   padding: 10px;
   border-radius: 5px;
   color: var(--font-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .sidebar a:hover {
@@ -85,7 +83,7 @@ main {
 
 .logo {
   z-index: 1000;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease;
 }
 
 .logo:hover {
@@ -134,7 +132,7 @@ li:hover {
 }
 
 .card:hover {
-  transform: scale(1.1);
+  transform: scale(1.02);
 }
 
 .card div {
@@ -202,7 +200,7 @@ li:hover {
   border-bottom: 1px solid var(--font-color-light);
   margin: 10px;
   font-size: 18px;
-  transition: border-bottom 0.3s linear;
+  transition: border-bottom 0.5s linear;
 }
 
 .right input::placeholder {
@@ -305,7 +303,9 @@ li.emergency::before {
   padding: 20px;
   margin-top: 20px;
   border-radius: 5px;
+  transition: transform 1s ease;
 }
+
 
 .dashboard-card p {
   margin-bottom: 20px;
@@ -572,7 +572,7 @@ button.tab-button-inactive.px-6.py-3:hover {
   padding: 0.75rem 1.5rem !important;
   border-radius: 0.5rem !important;
   font-weight: 500 !important;
-  transition: all 0.3s ease !important;
+  transition: all 1s ease !important;
   border: none !important;
   cursor: pointer !important;
   font-size: 1rem !important;
@@ -590,7 +590,7 @@ button.tab-button-inactive.px-6.py-3:hover {
   padding: 0.75rem 1.5rem !important;
   border-radius: 0.5rem !important;
   font-weight: 500 !important;
-  transition: all 0.3s ease !important;
+  transition: all 1s ease !important;
   border: 2px solid var(--primary-color) !important;
   cursor: pointer !important;
   font-size: 1rem !important;
@@ -2485,7 +2485,7 @@ Tailwind utilities used in PatientRegister.jsx
 
   .sidebar {
     width: 0px;
-    transition: width 0.3s ease-in-out;
+    transition: width 0.5s ease-in-out;
     background: white;
   }
 
@@ -2554,6 +2554,37 @@ Tailwind utilities used in PatientRegister.jsx
   cursor: pointer;
   opacity: 0.8;
 }
+
+.cards-container{
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+}
+
+@media screen and (min-width : 1360px) {
+  .cards-container{
+    margin-right: 100px;
+  }
+}
+
+@media screen and (max-width : 1260px) {
+  .cards-container{
+    grid-template-columns: repeat(3,1fr);
+  }
+}
+
+@media screen and (max-width : 950px) {
+  .cards-container{
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media screen and (max-width : 770px) {
+  .cards-container{
+    grid-template-columns: repeat(1,1fr);
+  }
+}
+
+
 
 @media screen and (max-width: 730px) {
   .alert-card h3 {
@@ -2632,7 +2663,7 @@ Tailwind utilities used in PatientRegister.jsx
 }
 
 .appointment-card {
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease;
 }
 .appointment-card:hover {
   cursor: pointer;
@@ -2659,6 +2690,7 @@ img:hover {
 a:hover,
 button:hover {
   cursor: pointer;
+  transform: scale(1.05);
 }
 
 .patientBasics {
@@ -2711,7 +2743,7 @@ button:hover {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease;
 }
 
 .activityCard p,
