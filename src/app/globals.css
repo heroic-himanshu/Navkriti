@@ -1,7 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-
-
 * {
   margin: 0;
   padding: 0;
@@ -24,7 +22,7 @@ a {
   transition: scale 0.5s ease;
 }
 
-a:hover{
+a:hover {
   transform: scale(1.01);
 }
 
@@ -2328,7 +2326,6 @@ Tailwind utilities used in PatientRegister.jsx
   justify-content: center;
   animation: sosBlink 1.5s infinite;
   transition: transform 1s ease-in-out;
-
 }
 
 .sos-btn:hover {
@@ -2447,20 +2444,20 @@ Tailwind utilities used in PatientRegister.jsx
     position: static;
   }
 
-  .visual-section{
+  .visual-section {
     flex-direction: column;
     gap: 50px;
   }
 
-  .visual-section h2{
+  .visual-section h2 {
     font-size: 20px;
   }
 
-  .dashboard-container h2{
+  .dashboard-container h2 {
     font-size: 30px;
   }
 
-  .dashboard-card{
+  .dashboard-card {
     width: 100%;
   }
 
@@ -2539,23 +2536,24 @@ Tailwind utilities used in PatientRegister.jsx
   }
 }
 
-.logo a{
+.logo a {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.sendSOSbtn, .cancelSOSbtn {
+.sendSOSbtn,
+.cancelSOSbtn {
   border: none;
   padding: 10px 20px;
   margin: 15px;
 }
 
-.sendSOSbtn:hover, .cancelSOSbtn:hover {
+.sendSOSbtn:hover,
+.cancelSOSbtn:hover {
   cursor: pointer;
   opacity: 0.8;
 }
-
 
 @media screen and (max-width: 730px) {
   .alert-card h3 {
@@ -2653,35 +2651,35 @@ img:hover {
   transform: scale(1.1);
 }
 
-
-.instructions{
+.instructions {
   min-width: 60vw;
   margin: 40px auto;
 }
 
-a:hover, button:hover {
+a:hover,
+button:hover {
   cursor: pointer;
 }
 
-.patientBasics{
+.patientBasics {
   display: flex;
   justify-content: space-between;
   margin-bottom: 40px;
 }
 
-.patientBasics > div{
+.patientBasics > div {
   display: flex;
   gap: 10px;
   align-items: center;
   justify-content: center;
 }
 
-.patientBasics h3{
+.patientBasics h3 {
   font-size: 30px;
   margin-bottom: 10px;
 }
 
-.patientBasics button{
+.patientBasics button {
   border: none;
   padding: 15px 25px;
   margin: 15px;
@@ -2690,24 +2688,24 @@ a:hover, button:hover {
   border-radius: 6px;
 }
 
-
-.activityCards{
+.activityCards {
   margin-bottom: 20px;
-
 }
 
-.recentActivity, .medicineIntake{
+.recentActivity,
+.medicineIntake {
   margin: 40px auto;
   min-width: 60vw;
 }
 
-.recentActivity h2, .medicineIntake h2{
+.recentActivity h2,
+.medicineIntake h2 {
   font-size: 30px;
   margin-bottom: 20px;
-
 }
 
-.activityCard, .medicineCard{
+.activityCard,
+.medicineCard {
   width: 300px;
   background: var(--light-bg-color);
   padding: 20px;
@@ -2716,38 +2714,42 @@ a:hover, button:hover {
   transition: transform 0.3s ease;
 }
 
-.activityCard p,.medicineCard p{
+.activityCard p,
+.medicineCard p {
   font-size: 16px;
   margin-top: 10px;
 }
 
-.activityCard h3, medicineCard h3{
+.activityCard h3,
+medicineCard h3 {
   font-size: 25px;
   margin-bottom: 10px;
 }
 
-.activityCard:hover , .medicineCard:hover {
+.activityCard:hover,
+.medicineCard:hover {
   cursor: pointer;
   transform: scale(1.05);
 }
 
-.activityCards, .medicalScheduleCards{
+.activityCards,
+.medicalScheduleCards {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
 }
 
-.high-risk-card{
+.high-risk-card {
   border: 1px solid var(--secondary-color);
   background: #ffe5e5;
 }
 
-.medium-risk-card{
+.medium-risk-card {
   border: 1px solid orange;
   background: #fff3cd;
 }
 
-.low-risk-card{
+.low-risk-card {
   border: 1px solid green;
   background: #d4edda;
 }
@@ -2782,18 +2784,18 @@ a:hover, button:hover {
   animation: fade-in 0.3s ease-out;
 }
 
-.custom-notification{
+.custom-notification {
   position: fixed;
   bottom: 40px;
   right: -1520px;
   transition: right 0.3s ease-in-out;
 }
 
-.active-custom-notification{
+.active-custom-notification {
   right: 20px;
 }
 
-.custom-notification button{
+.custom-notification button {
   margin-left: 10px;
 }
 
@@ -2801,3 +2803,24 @@ a:hover, button:hover {
   border: 0;
 }
 
+
+.sos-card-high-risk {
+  border: 1px solid var(--secondary-color);
+  border-radius: 5px;
+  padding: 16px;
+  background: rgb(246, 238, 238);
+}
+
+.sos-card-medium-risk {
+  border: 1px solid var(--primary-color);
+  background: rgb(230, 230, 243);
+    border-radius: 5px;
+  padding: 16px;
+}
+
+.sos-card-low-risk {
+  border: 1px solid green;
+  border-radius: 5px;
+  padding: 16px;
+  background: rgb(242, 247, 242);
+}
