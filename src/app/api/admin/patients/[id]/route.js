@@ -67,7 +67,7 @@ export async function PUT(request, { params }) {
     
     await dbConnect();
     
-    const { id } = params;
+    const { id } = await params;
     
     if (!ObjectId.isValid(id)) {
       return NextResponse.json(

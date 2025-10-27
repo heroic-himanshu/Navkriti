@@ -144,7 +144,7 @@ const DashBoardPatient = () => {
         transcription,
       });
 
-      return data.alert_type || data.rating_alert || "medium";
+      return data.rating_alert;
     } catch (error) {
       console.error("AI rating error:", error);
       return "medium"; // Default to medium if AI fails
