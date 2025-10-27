@@ -30,18 +30,19 @@ const Patients = () => {
     <div>
       <SideBar active="patients" />
       <div className={styles.container}>
-        <div className={styles.topSection}>
+        <div className={styles.topSection} id="topSection">
           <div>
             <h2 className={styles.header}>Patients</h2>
             <p className={styles.subIntro}>Manage and monitor patient care</p>
           </div>
           <div>
-            <div className={styles.searchBox}>
+            <div className={styles.searchBox} id="searchPatientBox">
               <i className="fa-solid fa-magnifying-glass"></i>
               <input
                 type="text"
                 placeholder="Search patients"
                 value={searchTerm}
+                id="searchPatient"
                 className={styles.searchInput}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />

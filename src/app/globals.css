@@ -16,13 +16,12 @@
   --light-bg-color: #f5f5f5;
 }
 
-a,button {
+a,
+button {
   text-decoration: none;
   color: black;
   transition: all 0.5s ease;
 }
-
-
 
 header {
   display: flex;
@@ -305,7 +304,6 @@ li.emergency::before {
   border-radius: 5px;
   transition: transform 1s ease;
 }
-
 
 .dashboard-card p {
   margin-bottom: 20px;
@@ -2555,36 +2553,34 @@ Tailwind utilities used in PatientRegister.jsx
   opacity: 0.8;
 }
 
-.cards-container{
+.cards-container {
   display: grid;
-  grid-template-columns: repeat(4,1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
-@media screen and (min-width : 1360px) {
-  .cards-container{
+@media screen and (min-width: 1360px) {
+  .cards-container {
     margin-right: 100px;
   }
 }
 
-@media screen and (max-width : 1260px) {
-  .cards-container{
-    grid-template-columns: repeat(3,1fr);
+@media screen and (max-width: 1260px) {
+  .cards-container {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media screen and (max-width : 950px) {
-  .cards-container{
-    grid-template-columns: repeat(2,1fr);
+@media screen and (max-width: 950px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media screen and (max-width : 770px) {
-  .cards-container{
-    grid-template-columns: repeat(1,1fr);
+@media screen and (max-width: 770px) {
+  .cards-container {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
-
-
 
 @media screen and (max-width: 730px) {
   .alert-card h3 {
@@ -2835,7 +2831,6 @@ medicineCard h3 {
   border: 0;
 }
 
-
 .sos-card-high-risk {
   border: 1px solid var(--secondary-color);
   border-radius: 5px;
@@ -2846,7 +2841,7 @@ medicineCard h3 {
 .sos-card-medium-risk {
   border: 1px solid var(--primary-color);
   background: rgb(230, 230, 243);
-    border-radius: 5px;
+  border-radius: 5px;
   padding: 16px;
 }
 
@@ -2855,4 +2850,30 @@ medicineCard h3 {
   border-radius: 5px;
   padding: 16px;
   background: rgb(242, 247, 242);
+}
+
+@media screen and (max-width: 1000px) {
+  #topSection{
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    top: -60px;
+  }
+
+  #searchPatientBox {
+    width: 80vw !important;
+  }
+}
+
+.delete-icon:hover {
+  cursor: pointer;
+}
+
+.delete-icon svg:hover{
+  color: rgb(224, 169, 169);
+}
+
+.delete-icon:disabled {
+    cursor: not-allowed;
+  pointer-events: all !important;
 }
