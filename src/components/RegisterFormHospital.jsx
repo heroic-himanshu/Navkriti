@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import ThemeImage from "./ThemeImage";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -71,7 +71,7 @@ const RegisterFormHospital = () => {
     return (
         <div className="form-container">
             <div className="left">
-                <Image src={"/images/doctor-loginpage.png"} fill={true} objectFit="contain" alt="Doctor image" />
+                <ThemeImage src={"/images/doctor-loginpage.png"} fill={true} objectFit="contain" alt="Doctor image" />
             </div>
             <div className="right">
                 <h2 style={{ fontSize: "30px" }}>Hospital Register</h2>

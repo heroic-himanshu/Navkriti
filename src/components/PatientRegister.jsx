@@ -290,7 +290,7 @@ export default function PatientRegister() {
 
         {/* Basic Info Tab */}
         {activeTab === "basic" && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-1e293b rounded-xl shadow-sm border border-gray-200 p-6">
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -397,7 +397,7 @@ export default function PatientRegister() {
 
         {/* Medical Info Tab */}
         {activeTab === "medical" && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-1e293b rounded-xl shadow-sm border border-gray-200 p-6">
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -511,7 +511,7 @@ export default function PatientRegister() {
             {medicines.map((medicine, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+                className="bg-1e293b rounded-xl shadow-sm border border-gray-200 p-6"
               >
                 <div className="flex justify-between items-center mb-4">
                   <h4 className="font-medium text-gray-900 flex items-center gap-2">

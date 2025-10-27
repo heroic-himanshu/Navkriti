@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import ThemeImage from "./ThemeImage";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -70,7 +70,7 @@ const LoginFormHospital = () => {
     return (
         <div className="form-container">
             <div className="left">
-                <Image src={"/images/doctor-loginpage.png"} layout="fill" objectFit="contain" alt="doctor image" />
+                <ThemeImage src={"/images/doctor-loginpage.png"} layout="fill" objectFit="contain" alt="doctor image" />
             </div>
             <div className="right">
                 <h2>Hospital Login</h2>

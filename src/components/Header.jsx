@@ -1,6 +1,7 @@
 
 import Link from 'next/link'
 import React from 'react'
+import DarkModeToggle from './DarkModeToggle'
 
 const Header = () => {
     return (
@@ -15,7 +16,7 @@ const Header = () => {
             <nav>
                 <ul>
                     <li>
-                        <Link href={"/"}><i className="fa-solid fa-moon"></i></Link>
+                        <DarkModeToggle />
                     </li>
                 </ul>
             </nav>

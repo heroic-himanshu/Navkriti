@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import Image from "next/image";
+import ThemeImage from "./ThemeImage";
 import { fetchWithProgress, postJSON } from "@/lib/fetchWithProgess";
 
 const LoginFormPatient = () => {
@@ -75,13 +75,14 @@ const LoginFormPatient = () => {
 
     return (
         <div className="form-container patient-login">
-            <div className="left">
-                <Image
+            <div className="left" >
+                <ThemeImage
                     src="/images/patient-loginpage.png"
                     fill={true}
                     alt="Patient Login"
                     priority
                     objectFit="contain"
+                   
                 />
             </div>
             <div className="right">
