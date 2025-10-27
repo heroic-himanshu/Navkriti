@@ -1,11 +1,14 @@
+// app/patient/dashboard/page.js
 "use client";
-import MedicineReminder from "@/components/MedicineReminder";
+import { useRouter } from 'next/navigation';
 import { fetchWithProgress, postJSON } from "@/lib/fetchWithProgess";
 import PatientSideBar from "@/components/PatientSideBar";
 import SOSBtn from "@/components/SOSBtn";
 import React, { useState, useRef, useEffect } from "react";
 import { Mic, AlertCircle, CheckCircle, Loader, X, Send } from "lucide-react";
+
 const DashBoardPatient = () => {
+  const router = useRouter();
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -21,19 +24,13 @@ const DashBoardPatient = () => {
 
   const MAX_DURATION = 30;
 
-  // Cloudinary configuration
   const CLOUDINARY_CLOUD_NAME = "debeqjgby";
   const CLOUDINARY_UPLOAD_PRESET = "Navkriti";
 
   useEffect(() => {
     return () => {
-      if (timerIntervalRef.current) {
-        clearInterval(timerIntervalRef.current);
-      }
-      if (
-        mediaRecorderRef.current &&
-        mediaRecorderRef.current.state !== "inactive"
-      ) {
+      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
         mediaRecorderRef.current.stop();
       }
       if (streamRef.current) {
@@ -45,11 +42,7 @@ const DashBoardPatient = () => {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          sampleRate: 44100,
-        },
+        audio: { echoCancellation: true, noiseSuppression: true, sampleRate: 44100 },
       });
 
       streamRef.current = stream;
@@ -63,9 +56,7 @@ const DashBoardPatient = () => {
       audioChunksRef.current = [];
 
       mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
+        if (event.data.size > 0) audioChunksRef.current.push(event.data);
       };
 
       mediaRecorder.start();
@@ -77,29 +68,18 @@ const DashBoardPatient = () => {
       timerIntervalRef.current = setInterval(() => {
         setRecordingDuration((prev) => {
           const newDuration = prev + 1;
-
-          if (newDuration >= MAX_DURATION) {
-            handleSendRecording();
-          }
-
+          if (newDuration >= MAX_DURATION) handleSendRecording();
           return newDuration;
         });
       }, 1000);
     } catch (error) {
       console.error("Error accessing microphone:", error);
-
-      if (
-        error.name === "NotAllowedError" ||
-        error.name === "PermissionDeniedError"
-      ) {
+      if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
         setPermissionDenied(true);
-        setMessage(
-          "Microphone permission denied. Please enable it in your browser settings."
-        );
+        setMessage("Microphone permission denied.");
       } else {
-        setMessage("Could not access microphone. Please try again.");
+        setMessage("Could not access microphone.");
       }
-
       setStatus("error");
     }
   };
@@ -109,19 +89,13 @@ const DashBoardPatient = () => {
       clearInterval(timerIntervalRef.current);
       timerIntervalRef.current = null;
     }
-
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state !== "inactive"
-    ) {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
       mediaRecorderRef.current.stop();
     }
-
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     }
-
     setIsRecording(false);
   };
 
@@ -131,53 +105,49 @@ const DashBoardPatient = () => {
     formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
     formData.append("resource_type", "video");
 
-    try {
-      const response = await fetchWithProgress(
-        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/video/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+    const response = await fetchWithProgress(
+      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/video/upload`,
+      { method: "POST", body: formData }
+    );
 
-      if (!response.ok) {
-        throw new Error("Failed to upload to Cloudinary");
-      }
-
-      const data = await response.json();
-      return data.secure_url;
-    } catch (error) {
-      console.error("Cloudinary upload error:", error);
-      throw error;
-    }
+    if (!response.ok) throw new Error("Failed to upload to Cloudinary");
+    const data = await response.json();
+    return data.secure_url;
   };
 
-  // UPDATED: Transcribe audio using URL instead of blob
   const transcribeAudio = async (audioUrl) => {
     try {
-      // Send JSON with audio URL instead of FormData with blob
-      const response = await postJSON(
-        "http://localhost:8000/transcribe",
-        {
-          url: audioUrl, // Send Cloudinary URL
-        },
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Transcription failed");
-      }
-
-      const data = await response.json();
+      const data = await postJSON("http://localhost:8000/transcribe", { url: audioUrl });
       return data.text || data.transcription || data.result;
     } catch (error) {
       console.error("Transcription error:", error);
       return null;
+    }
+  };
+
+  const aiAlertRate = async (transcription) => {
+    try {
+      // Fetch patient data
+      const res = await fetchWithProgress("/api/patients/me", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("patientToken")}`,
+        },
+      });
+      
+      const patientResponse = await res.json();
+      const patientData = patientResponse.data;
+
+      // Send to AI for rating
+      const data = await postJSON("http://localhost:5000/api/ai", {
+        ...patientData,
+        transcription,
+      });
+
+      return data.rating_alert;
+    } catch (error) {
+      console.error("AI rating error:", error);
+      return "medium"; // Default to medium if AI fails
     }
   };
 
@@ -191,7 +161,7 @@ const DashBoardPatient = () => {
     if (finalDuration < 1) {
       stopRecording();
       setStatus("error");
-      setMessage("Recording too short. Please record for at least 1 second.");
+      setMessage("Recording too short.");
       setTimeout(() => {
         setStatus("idle");
         setMessage("");
@@ -201,29 +171,47 @@ const DashBoardPatient = () => {
     }
 
     stopRecording();
-
     setIsProcessing(true);
     setStatus("processing");
     setMessage("Processing audio...");
-    await new Promise((resolve) => setTimeout(resolve, 100));
 
+    await new Promise((resolve) => setTimeout(resolve, 100));
     const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
 
     try {
-      // Step 1: Upload to Cloudinary first
       setMessage("Uploading...");
       const audioUrl = await uploadToCloudinary(audioBlob);
-      // Step 2: Transcribe using the Cloudinary URL
+
       setMessage("Transcribing audio...");
       const transcription = await transcribeAudio(audioUrl);
-      // Step 3: Send SOS alert with URL and transcription
+
+      setMessage("AI analyzing emergency...");
+      const alertType = await aiAlertRate(transcription);
+
       setMessage("Sending SOS alert...");
-      await sendSOSAlert(audioUrl, finalDuration, transcription);
+      const alertId = await sendSOSAlert(audioUrl, finalDuration, transcription, alertType);
+
+      setStatus("success");
+      setMessage("SOS alert sent! Redirecting to first aid...");
+
+      // Store data for first aid page
+      sessionStorage.setItem('sosAlertData', JSON.stringify({
+        alertId,
+        transcription,
+        alertType,
+        audioUrl,
+        timestamp: new Date().toISOString()
+      }));
+
+      // Redirect to SOS first aid page after 2 seconds
+      setTimeout(() => {
+        router.push('/patient/sos');
+      }, 2000);
+
     } catch (error) {
-      stopLoading(); // Stop loading on error
       console.error("Error in processing:", error);
       setStatus("error");
-      setMessage("Failed to process audio. Please try again.");
+      setMessage("Failed to process audio.");
 
       setTimeout(() => {
         setStatus("idle");
@@ -245,21 +233,16 @@ const DashBoardPatient = () => {
     recordingStartTimeRef.current = null;
   };
 
-  const sendSOSAlert = async (audioUrl, duration, transcription) => {
+  const sendSOSAlert = async (audioUrl, duration, transcription, alertType) => {
     try {
       const patientToken = localStorage.getItem("patientToken");
-
-      if (!patientToken) {
-        throw new Error("Not authenticated");
-      }
+      if (!patientToken) throw new Error("Not authenticated");
 
       let location = null;
       if (navigator.geolocation) {
         try {
           const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, {
-              timeout: 5000,
-            });
+            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 });
           });
           location = {
             latitude: position.coords.latitude,
@@ -274,50 +257,26 @@ const DashBoardPatient = () => {
         audio_url: audioUrl,
         duration: duration,
         transcription: transcription,
+        alert_type: alertType,
       };
 
-      if (location) {
-        payload.location = location;
-      }
+      if (location) payload.location = location;
 
-      const response = await postJSON("/api/alerts/sos/create-alert",payload, {
-        method: "POST",
+      const data = await postJSON("/api/alerts/sos/create-alert", payload, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${patientToken}`,
         },
       });
 
-      const data = await response.json();
-
       if (data.success) {
-        setStatus("success");
-        setMessage("SOS alert sent! Help is on the way.");
-
-        setTimeout(() => {
-          setStatus("idle");
-          setMessage("");
-          setRecordingDuration(0);
-          audioChunksRef.current = [];
-          recordingStartTimeRef.current = null;
-        }, 5000);
+        return data.alert._id;
       } else {
         throw new Error(data.error || "Failed to send alert");
       }
     } catch (error) {
       console.error("Error sending SOS:", error);
-      setStatus("error");
-      setMessage(error.message || "Failed to send alert. Please try again.");
-
-      setTimeout(() => {
-        setStatus("idle");
-        setMessage("");
-        setRecordingDuration(0);
-        audioChunksRef.current = [];
-        recordingStartTimeRef.current = null;
-      }, 5000);
-    } finally {
-      setIsProcessing(false);
+      throw error;
     }
   };
 
@@ -347,9 +306,7 @@ const DashBoardPatient = () => {
               e.preventDefault();
               handleButtonPress();
             }}
-            handleTouchEnd={(e) => {
-              e.preventDefault();
-            }}
+            handleTouchEnd={(e) => e.preventDefault()}
             disabled={isProcessing || status === "success"}
             message={
               <>
@@ -363,9 +320,7 @@ const DashBoardPatient = () => {
                   <>
                     <div className="recording-pulse"></div>
                     <Mic className="w-6 h-6 text-white" />
-                    <div className="sos-timer">
-                      {formatDuration(recordingDuration)}
-                    </div>
+                    <div className="sos-timer">{formatDuration(recordingDuration)}</div>
                   </>
                 )}
                 {status === "processing" && (
@@ -389,7 +344,6 @@ const DashBoardPatient = () => {
               </>
             }
           />
-
           {status === "recording" && <div className="recording-ring"></div>}
         </div>
 
@@ -414,7 +368,6 @@ const DashBoardPatient = () => {
           </div>
         )}
 
-        {/* Instructions */}
         <div className="text-center max-w-md mt-6 instructions">
           {status === "idle" && !permissionDenied && (
             <div className="space-y-2">
@@ -434,10 +387,6 @@ const DashBoardPatient = () => {
               </p>
               <p className="text-gray-600 text-sm">
                 Speak your emergency message • Max {MAX_DURATION}s
-              </p>
-              <p className="text-gray-500 text-xs">
-                Click &quot;Send SOS&quot; when done or &quot;Cancel&quot; to
-                discard
               </p>
             </div>
           )}
@@ -460,10 +409,6 @@ const DashBoardPatient = () => {
             <div className="mt-4 p-4 bg-yellow-100 border border-yellow-400 rounded-lg">
               <p className="text-yellow-800 text-sm mb-2">
                 <strong>Microphone Access Required</strong>
-              </p>
-              <p className="text-yellow-700 text-xs">
-                To use SOS, please enable microphone permission in your browser
-                settings.
               </p>
               <button
                 onClick={() => window.location.reload()}
