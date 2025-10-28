@@ -66,10 +66,28 @@ export default function SOSFirstAidPage() {
     }
   };
 
+  const getAlertColorLight = (alertType) => {
+    switch (alertType) {
+      case 'high': return '#fee2e2';
+      case 'medium': return '#fef3c7';
+      case 'low': return '#d1fae5';
+      default: return '#f3f4f6';
+    }
+  };
+
+  const getAlertColorDark = (alertType) => {
+    switch (alertType) {
+      case 'high': return '#dc2626';
+      case 'medium': return '#d97706';
+      case 'low': return '#059669';
+      default: return '#4b5563';
+    }
+  };
+
   if (loading) {
     return (
       <>
-        <PatientSideBar active="home" />
+        <PatientSideBar active="SOS" />
         <div style={{ 
           display: 'flex', 
           flexDirection: 'column',
@@ -137,17 +155,21 @@ export default function SOSFirstAidPage() {
     );
   }
 
+  const alertColor = getAlertColor(sosData?.alertType);
+  const alertColorLight = getAlertColorLight(sosData?.alertType);
+  const alertColorDark = getAlertColorDark(sosData?.alertType);
+
   return (
     <>
       <PatientSideBar active="home" />
       <div style={{ padding: '20px', maxWidth: '900px', margin: '0 auto', marginBottom: '100px' }}>
         <div style={{ 
-          background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+          background: `linear-gradient(135deg, ${alertColor} 0%, ${alertColorDark} 100%)`,
           borderRadius: '15px',
           padding: '25px',
           color: 'white',
           marginBottom: '25px',
-          boxShadow: '0 4px 6px rgba(239, 68, 68, 0.3)'
+          boxShadow: `0 4px 6px ${alertColor}4d`
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
             <div style={{ fontSize: '40px' }}>🚨</div>
@@ -170,7 +192,8 @@ export default function SOSFirstAidPage() {
               padding: '10px 15px', 
               borderRadius: '8px',
               flex: '1',
-              minWidth: '150px'
+              minWidth: '150px',
+              border: `2px solid rgba(255, 255, 255, 0.3)`
             }}>
               <div style={{ fontSize: '12px', opacity: 0.9 }}>Alert Level</div>
               <div style={{ fontSize: '18px', fontWeight: 'bold', textTransform: 'uppercase' }}>
@@ -193,13 +216,18 @@ export default function SOSFirstAidPage() {
         </div>
 
         <div style={{
-          backgroundColor: '#fef3c7',
-          border: '2px solid #f59e0b',
+          backgroundColor: alertColorLight,
+          border: `2px solid ${alertColor}`,
           borderRadius: '12px',
           padding: '20px',
           marginBottom: '25px'
         }}>
-          <h3 style={{ margin: '0 0 15px 0', color: '#92400e', fontSize: '18px', fontWeight: 'bold' }}>
+          <h3 style={{ 
+            margin: '0 0 15px 0', 
+            color: alertColorDark, 
+            fontSize: '18px', 
+            fontWeight: 'bold' 
+          }}>
             ⚠️ If Condition Worsens
           </h3>
           <a
@@ -230,7 +258,8 @@ export default function SOSFirstAidPage() {
             borderRadius: '12px',
             padding: '25px',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-            marginBottom: '25px'
+            marginBottom: '25px',
+            borderLeft: `4px solid ${alertColor}`
           }}>
             <h2 style={{ margin: '0 0 20px 0', fontSize: '22px', fontWeight: 'bold', color: '#111' }}>
               🏥 AI-Generated First Aid Instructions
@@ -252,7 +281,8 @@ export default function SOSFirstAidPage() {
             backgroundColor: '#f3f4f6',
             borderRadius: '12px',
             padding: '20px',
-            marginBottom: '25px'
+            marginBottom: '25px',
+            borderLeft: `4px solid ${alertColor}`
           }}>
             <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', color: '#374151' }}>
               Your Emergency Message:
