@@ -71,9 +71,9 @@ export default function CustomNotification({ alert, onClose, onViewDetails }) {
   const formattedLocation = formatLocation(alert.sos_location);
 
   return (
-    <div className={`fixed top-20 right-4 z-50 w-96 bg-white rounded-lg shadow-2xl border-l-4 animate-slide-in ${priorityColors[alert.alert_type]}`}>
+    <div className={`z-50 w-96 bg-white rounded-lg shadow-2xl border-l-4 animate-slide-in ${priorityColors[alert.alert_type]} custom-notification`}>
       {/* Header */}
-      <div className="bg-gradient-to-r from-red-500 to-red-600 text-white p-4 rounded-t-lg">
+      <div className="bg-gradient-to-r from-red-500 to-red-600 text-black p-4 rounded-t-lg">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
             <BellRing className="w-6 h-6 animate-bounce" />
@@ -84,7 +84,7 @@ export default function CustomNotification({ alert, onClose, onViewDetails }) {
           </div>
           <button
             onClick={onClose}
-            className="text-white hover:bg-red-700 rounded-full p-1 transition-colors"
+            className="text-black hover:bg-red-700 rounded-full p-1 transition-colors border-none"
           >
             <X className="w-5 h-5" />
           </button>

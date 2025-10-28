@@ -7,6 +7,12 @@
   font-family: "Poppins", sans-serif;
 }
 
+body {
+  background-color: var(--bg-color, white);
+  color: var(--font-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 :root {
   --font-color: black;
   --font-color-light: #666666;
@@ -14,6 +20,38 @@
   --primary-light-color: rgb(235, 240, 250);
   --secondary-color: #af2f1e;
   --light-bg-color: #f5f5f5;
+}
+
+/* Dark mode color palette */
+[data-theme="dark"] {
+  --font-color: #e5e5e5;
+  --font-color-light: #a0a0a0;
+  --primary-color: #3b82f6;
+  --primary-light-color: #1e293b;
+  --secondary-color: #ef4444;
+  --light-bg-color: #1e293b;
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --border-color: #334155;
+}
+.bg-1e293b{
+  background-color: #1e293b;
+}
+.bg-0f172a{
+  background-color: #0f172a;
+}
+
+/* Light mode explicit variables for consistency */
+[data-theme="light"] {
+  --font-color: black;
+  --font-color-light: #666666;
+  --primary-color: #2563eb;
+  --primary-light-color: rgb(235, 240, 250);
+  --secondary-color: #af2f1e;
+  --light-bg-color: #f5f5f5;
+  --bg-color: white;
+  --card-bg: white;
+  --border-color: #e5e5e5;
 }
 
 a,
@@ -181,7 +219,7 @@ li:hover {
   position: relative;
 }
 .right {
-  background-color: white;
+  background-color: var(--bg-color, white);
   display: flex;
   flex-direction: column;
 }
@@ -471,7 +509,7 @@ footer {
   outline: none;
   padding: 15px 20px;
   font-size: 16px;
-  background: white;
+  background: var(--bg-color, white);
   border: 2px solid var(--font-color-light);
   border-radius: 5px;
 }
@@ -583,7 +621,7 @@ button.tab-button-inactive.px-6.py-3:hover {
 }
 
 .nav-button-secondary {
-  background-color: white !important;
+  background-color: var(--bg-color, white) !important;
   color: var(--primary-color) !important;
   padding: 0.75rem 1.5rem !important;
   border-radius: 0.5rem !important;
@@ -2484,7 +2522,7 @@ Tailwind utilities used in PatientRegister.jsx
   .sidebar {
     width: 0px;
     transition: width 0.5s ease-in-out;
-    background: white;
+    background: var(--bg-color, white);
   }
 
   .sidebar a {
@@ -2678,7 +2716,16 @@ Tailwind utilities used in PatientRegister.jsx
 
 img {
   transition: transform 0.3s ease;
+  padding: 8px;
+  box-sizing: border-box;
 }
+
+/* Light mode image background */
+[data-theme="light"] img {
+  background: white;
+  border-radius: 8px;
+}
+
 img:hover {
   cursor: pointer;
   transform: scale(1.1);
@@ -2821,13 +2868,12 @@ medicineCard h3 {
 .custom-notification {
   position: fixed;
   bottom: 40px;
-  right: -1520px;
   transition: right 0.3s ease-in-out;
-}
-
-.active-custom-notification {
+  z-index: 100000;
   right: 20px;
 }
+
+
 
 .custom-notification button {
   margin-left: 10px;
@@ -2882,4 +2928,416 @@ medicineCard h3 {
 .delete-icon:disabled {
     cursor: not-allowed;
   pointer-events: all !important;
+}
+
+/* Dark Mode Toggle Styles */
+.dark-mode-toggle {
+  background: var(--light-bg-color);
+  border: 2px solid var(--border-color, #e5e5e5);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--font-color);
+  font-size: 20px;
+}
+
+.dark-mode-toggle:hover {
+  transform: scale(1.1) rotate(15deg);
+  background: var(--primary-light-color);
+  border-color: var(--primary-color);
+}
+
+.dark-mode-toggle i {
+  transition: all 0.3s ease;
+}
+
+/* Dark mode card adjustments */
+[data-theme="dark"] .card,
+[data-theme="dark"] .dashboard-card,
+[data-theme="dark"] .patient-card,
+[data-theme="dark"] .alert-card,
+[data-theme="dark"] .appointment-card,
+[data-theme="dark"] .activityCard,
+[data-theme="dark"] .medicineCard {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--font-color);
+}
+
+[data-theme="dark"] header,
+[data-theme="dark"] nav,
+[data-theme="dark"] .sidebar {
+  background: var(--bg-color) !important;
+}
+
+[data-theme="dark"] .right {
+  background: #0f172a !important;
+  color: var(--font-color) !important;
+}
+
+[data-theme="dark"] .left {
+  background: #0f172a;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: var(--light-bg-color);
+  color: var(--font-color);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] select::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--font-color-light);
+}
+
+/* Form container dark mode fix */
+[data-theme="dark"] .form-container,
+[data-theme="dark"] .patient-register-wrapper,
+[data-theme="dark"] .patient-register-container {
+  background: #0f172a !important;
+}
+
+[data-theme="dark"] .form-container .right,
+[data-theme="dark"] .patient-register .right,
+[data-theme="dark"] .patient-register-container .right {
+  background: #0f172a !important;
+  background-color: #0f172a !important;
+}
+
+/* Additional specificity for nested elements */
+[data-theme="dark"] .form-container.patient-register-container .right {
+  background: #0f172a !important;
+  background-color: #0f172a !important;
+}
+
+[data-theme="dark"] .emergency-card {
+  background: #2d1f1f;
+  border-color: var(--secondary-color);
+}
+
+[data-theme="dark"] .doses-missed-card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .sos-card-high-risk {
+  background: #3d2525;
+  border-color: var(--secondary-color);
+}
+
+[data-theme="dark"] .sos-card-medium-risk {
+  background: #252a3d;
+  border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .sos-card-low-risk {
+  background: #253d25;
+  border-color: #22c55e;
+}
+
+[data-theme="dark"] .high-risk-card {
+  background: #3d2525;
+  border-color: var(--secondary-color);
+}
+
+[data-theme="dark"] .medium-risk-card {
+  background: #3d3525;
+  border-color: #f97316;
+}
+
+[data-theme="dark"] .low-risk-card {
+  background: #253d25;
+  border-color: #22c55e;
+}
+
+/* Image and logo dark mode adjustments */
+[data-theme="dark"] img {
+  filter: brightness(0.9);
+  background: var(--light-bg-color);
+  border-radius: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+[data-theme="dark"] .logo-icon {
+  color: var(--primary-color);
+}
+
+/* Additional text color fixes for dark mode */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] p,
+[data-theme="dark"] span,
+[data-theme="dark"] label,
+[data-theme="dark"] li {
+  color: var(--font-color);
+}
+
+[data-theme="dark"] .txt-light,
+[data-theme="dark"] .text-gray-500,
+[data-theme="dark"] .text-gray-600 {
+  color: var(--font-color-light) !important;
+}
+
+/* Button adjustments for dark mode */
+[data-theme="dark"] button {
+  color: inherit;
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .right a,
+[data-theme="dark"] .right button {
+  color: white;
+}
+
+/* Tab buttons in forms */
+[data-theme="dark"] .tab-button-inactive {
+  color: var(--font-color-light) !important;
+  background-color: transparent !important;
+}
+
+[data-theme="dark"] .tab-button-active {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+/* Alert and notification cards */
+[data-theme="dark"] .alert-card button {
+  background: var(--light-bg-color);
+  color: var(--font-color);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .alert-card button:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Link colors for dark mode */
+[data-theme="dark"] a {
+  color: var(--font-color);
+}
+
+[data-theme="dark"] a:hover {
+  color: var(--primary-color);
+}
+
+/* Sidebar links */
+[data-theme="dark"] .sidebar a {
+  color: var(--font-color);
+}
+
+[data-theme="dark"] .sidebar a:hover,
+[data-theme="dark"] .sidebar a.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Logo text */
+[data-theme="dark"] .logo p {
+  color: var(--font-color-light);
+}
+
+[data-theme="dark"] .logo h1 {
+  color: var(--font-color);
+}
+
+/* View profile and action buttons */
+[data-theme="dark"] .view-profile-btn,
+[data-theme="dark"] .book-appointment-btn,
+[data-theme="dark"] .nav-button-primary {
+  background: var(--primary-color) !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .nav-button-secondary {
+  background: var(--light-bg-color) !important;
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* Patient cards and details */
+[data-theme="dark"] .profile-content h2,
+[data-theme="dark"] .details-content p {
+  color: var(--font-color);
+}
+
+[data-theme="dark"] .details-content > div > p:last-child {
+  color: var(--font-color);
+  font-weight: 600;
+}
+
+/* Intro paragraphs */
+[data-theme="dark"] .introPara h2,
+[data-theme="dark"] .introPara p {
+  color: var(--font-color);
+}
+
+/* Patient basics section */
+[data-theme="dark"] .patientBasics h3,
+[data-theme="dark"] .patientBasics p {
+  color: var(--font-color);
+}
+
+[data-theme="dark"] .patientBasics button {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Recent activity and medicine sections */
+[data-theme="dark"] .recentActivity h2,
+[data-theme="dark"] .medicineIntake h2,
+[data-theme="dark"] .activityCard h3,
+[data-theme="dark"] .medicineCard h3,
+[data-theme="dark"] .activityCard p,
+[data-theme="dark"] .medicineCard p {
+  color: var(--font-color);
+}
+
+/* Appointment cards */
+[data-theme="dark"] .appointment-card .introPara h3,
+[data-theme="dark"] .appointment-card .introPara p,
+[data-theme="dark"] .appointment-card .detailsPara {
+  color: var(--font-color);
+}
+
+/* Dashboard headings */
+[data-theme="dark"] .dashboard-container h2,
+[data-theme="dark"] .dashboard-container p {
+  color: var(--font-color);
+}
+
+[data-theme="dark"] .dashboard-card p:last-child {
+  color: var(--font-color-light);
+}
+
+/* Instructions and other content sections */
+[data-theme="dark"] .instructions h2,
+[data-theme="dark"] .instructions p,
+[data-theme="dark"] .instructions li {
+  color: var(--font-color);
+}
+
+/* Footer */
+[data-theme="dark"] footer {
+  background: var(--light-bg-color);
+  color: var(--font-color);
+}
+
+/* Notification cards */
+[data-theme="dark"] .recent-notifcation-container li p {
+  color: var(--font-color-light);
+}
+
+[data-theme="dark"] .recent-notifcation-container li h3,
+[data-theme="dark"] .recent-notifcation-container li h4 {
+  color: var(--font-color);
+}
+
+/* SOS Card specific text colors */
+[data-theme="dark"] .sos-card-high-risk p,
+[data-theme="dark"] .sos-card-medium-risk p,
+[data-theme="dark"] .sos-card-low-risk p {
+  color: var(--font-color);
+}
+
+/* Resolved alert styling */
+[data-theme="dark"] .resolved-alert-text {
+  background-color: var(--border-color);
+  color: var(--font-color);
+}
+
+/* Custom notification */
+[data-theme="dark"] .custom-notification {
+  background: var(--card-bg);
+  color: var(--font-color);
+  border: 1px solid var(--border-color);
+}
+
+/* Icons that should maintain visibility */
+[data-theme="dark"] .fa-circle-info {
+  color: var(--secondary-color);
+}
+
+[data-theme="dark"] .fa-signal,
+[data-theme="dark"] .fa-thumbs-up {
+  color: var(--primary-color);
+}
+
+/* Menu button for mobile */
+[data-theme="dark"] .menu div {
+  background: var(--font-color);
+}
+
+/* Table and grid text */
+[data-theme="dark"] .grid,
+[data-theme="dark"] .table {
+  color: var(--font-color);
+}
+
+/* Ensure all text within cards and forms is white in dark mode */
+[data-theme="dark"] .card *,
+[data-theme="dark"] .dashboard-card *,
+[data-theme="dark"] .patient-card *,
+[data-theme="dark"] .alert-card *,
+[data-theme="dark"] .appointment-card *,
+[data-theme="dark"] .activityCard *,
+[data-theme="dark"] .medicineCard *,
+[data-theme="dark"] .right *,
+[data-theme="dark"] .form-container * {
+  color: inherit;
+}
+
+/* Specific overrides for elements that should use font-color */
+[data-theme="dark"] .card,
+[data-theme="dark"] .dashboard-card,
+[data-theme="dark"] .patient-card,
+[data-theme="dark"] .alert-card,
+[data-theme="dark"] .appointment-card,
+[data-theme="dark"] .activityCard,
+[data-theme="dark"] .medicineCard,
+[data-theme="dark"] .right,
+[data-theme="dark"] .form-container {
+  color: var(--font-color);
+}
+
+/* Patient register container specific fixes */
+[data-theme="dark"] .patient-register-container * {
+  color: inherit;
+}
+
+[data-theme="dark"] .patient-register-container {
+  color: var(--font-color);
+}
+
+/* Ensure error messages and helper text are visible */
+[data-theme="dark"] .text-red-500,
+[data-theme="dark"] .text-red-600 {
+  color: #f87171 !important;
+}
+
+[data-theme="dark"] .text-green-500,
+[data-theme="dark"] .text-green-600 {
+  color: #4ade80 !important;
+}
+
+[data-theme="dark"] .text-yellow-500,
+[data-theme="dark"] .text-yellow-600 {
+  color: #facc15 !important;
+}
+
+[data-theme="dark"] img{
+  background: #0f172a;
 }
