@@ -294,7 +294,7 @@ export default function SOSFirstAidPage() {
               fontSize: '15px',
               lineHeight: '1.6'
             }}>
-              "{sosData.transcription}"
+              &quot;{sosData.transcription}&quot;
             </p>
           </div>
         )}
