@@ -1,13 +1,12 @@
-// app/patient/dashboard/page.js
+// app/patient/home/page.js
 "use client";
 import { useRouter } from 'next/navigation';
-import { fetchWithProgress, postJSON } from "@/lib/fetchWithProgess";
 import PatientSideBar from "@/components/PatientSideBar";
 import SOSBtn from "@/components/SOSBtn";
 import React, { useState, useRef, useEffect } from "react";
 import { Mic, AlertCircle, CheckCircle, Loader, X, Send } from "lucide-react";
 
-const DashBoardPatient = () => {
+const PatientHome = () => {
   const router = useRouter();
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
@@ -23,7 +22,6 @@ const DashBoardPatient = () => {
   const recordingStartTimeRef = useRef(null);
 
   const MAX_DURATION = 30;
-
   const CLOUDINARY_CLOUD_NAME = "debeqjgby";
   const CLOUDINARY_UPLOAD_PRESET = "Navkriti";
 
@@ -73,7 +71,6 @@ const DashBoardPatient = () => {
         });
       }, 1000);
     } catch (error) {
-      console.error("Error accessing microphone:", error);
       if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
         setPermissionDenied(true);
         setMessage("Microphone permission denied.");
@@ -105,7 +102,7 @@ const DashBoardPatient = () => {
     formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
     formData.append("resource_type", "video");
 
-    const response = await fetchWithProgress(
+    const response = await fetch(
       `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/video/upload`,
       { method: "POST", body: formData }
     );
@@ -117,39 +114,60 @@ const DashBoardPatient = () => {
 
   const transcribeAudio = async (audioUrl) => {
     try {
-      const data = await postJSON("http://localhost:8000/transcribe", { url: audioUrl });
-      return data.text || data.transcription || data.result;
+      const response = await fetch("http://localhost:8000/transcribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: audioUrl }),
+      });
+
+      if (!response.ok) throw new Error("Transcription failed");
+
+      const data = await response.json();
+      return data.text || data.transcription || '';
     } catch (error) {
-      console.error("Transcription error:", error);
       return null;
     }
   };
 
-  const aiAlertRate = async (transcription) => {
-    try {
-      // Fetch patient data
-      const res = await fetchWithProgress("/api/patients/me", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("patientToken")}`,
-        },
-      });
-      
-      const patientResponse = await res.json();
-      const patientData = patientResponse.data;
+  // In app/patient/home/page.js - Update categorizeAlert function
 
-      // Send to AI for rating
-      const data = await postJSON("http://localhost:5000/api/ai", {
-        ...patientData,
-        transcription,
-      });
+// In app/patient/home/page.js - Update categorizeAlert function
 
-      return data.rating_alert;
-    } catch (error) {
-      console.error("AI rating error:", error);
-      return "medium"; // Default to medium if AI fails
-    }
-  };
+const categorizeAlert = async (transcription) => {
+  try {
+    const patientToken = localStorage.getItem("patientToken");
+    const patientRes = await fetch("/api/patients/me", {
+      headers: { Authorization: `Bearer ${patientToken}` },
+    });
+    
+    const patientData = await patientRes.json();
+    const patient = patientData.data;
+
+    const payload = {
+      transcription: transcription,
+      age: patient?.age || 25,
+      sex: patient?.gender || patient?.sex || 'unknown',
+      comorbidities: patient?.comorbidities?.length || 0,
+      hospitalizations: patient?.hospitalization_count || 0
+    };
+
+    console.log('Categorizing alert with:', payload);
+
+    const response = await fetch("/api/alerts/categorize", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+    console.log('Categorization result:', data);
+    
+    return data.alert_type || "medium";
+  } catch (error) {
+    console.error('Categorization error:', error);
+    return "medium";
+  }
+};
 
   const handleSendRecording = async () => {
     if (!isRecording || isProcessing) return;
@@ -186,7 +204,7 @@ const DashBoardPatient = () => {
       const transcription = await transcribeAudio(audioUrl);
 
       setMessage("AI analyzing emergency...");
-      const alertType = await aiAlertRate(transcription);
+      const alertType = await categorizeAlert(transcription);
 
       setMessage("Sending SOS alert...");
       const alertId = await sendSOSAlert(audioUrl, finalDuration, transcription, alertType);
@@ -194,7 +212,6 @@ const DashBoardPatient = () => {
       setStatus("success");
       setMessage("SOS alert sent! Redirecting to first aid...");
 
-      // Store data for first aid page
       sessionStorage.setItem('sosAlertData', JSON.stringify({
         alertId,
         transcription,
@@ -203,13 +220,11 @@ const DashBoardPatient = () => {
         timestamp: new Date().toISOString()
       }));
 
-      // Redirect to SOS first aid page after 2 seconds
       setTimeout(() => {
         router.push('/patient/sos');
       }, 2000);
 
     } catch (error) {
-      console.error("Error in processing:", error);
       setStatus("error");
       setMessage("Failed to process audio.");
 
@@ -249,7 +264,7 @@ const DashBoardPatient = () => {
             longitude: position.coords.longitude,
           };
         } catch (error) {
-          console.log("Location not available:", error);
+          // Location unavailable
         }
       }
 
@@ -262,20 +277,28 @@ const DashBoardPatient = () => {
 
       if (location) payload.location = location;
 
-      const res = await postJSON("/api/alerts/sos/create-alert", payload, {
+      const response = await fetch("/api/alerts/sos/create-alert", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${patientToken}`,
         },
+        body: JSON.stringify(payload),
       });
-      let data = await res.json();
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to send alert");
+      }
+
+      const data = await response.json();
+
       if (data.success) {
         return data.alert._id;
       } else {
         throw new Error(data.error || "Failed to send alert");
       }
     } catch (error) {
-      console.error("Error sending SOS:", error);
       throw error;
     }
   };
@@ -294,7 +317,7 @@ const DashBoardPatient = () => {
     <>
       <PatientSideBar active={"home"} />
       <div className="container" style={{ marginBottom: "150px" }}>
-        <h1>Welcome back, Devesh!</h1>
+        <h1>Welcome back!</h1>
         <p className="txt-light">How are you feeling today?</p>
 
         <div className="sos-btn-container">
@@ -438,4 +461,4 @@ const DashBoardPatient = () => {
   );
 };
 
-export default DashBoardPatient;
+export default PatientHome;
